@@ -1,17 +1,17 @@
 {
     "manifest_version": 3,
-    "name": "react-boilerplate",
-    "description": "react-boilerplate for chrome extension",
+    "name": "SagiousPass",
+    "description": "Helps you change and find password easier, which you can remember later on. And even if you forget it just find it here :)",
     "version": "1.0.0",
     "action" : {
         "default_popup": "popup.html",
-        "default_title": "React Boilerplate",
-        "default_icon" : "icon.png"
+        "default_title": "Password Manager",
+        "default_icon" : "images/icon_48.png"
     },
     "icons": {
-        "16" : "icon.png",
-        "48" : "icon.png",
-        "128" : "icon.png"
+        "16" : "images/logo_16.png",
+        "48" : "images/logo_48.png",
+        "128" : "images/logo_128.png"
     },
     "options_page": "options.html",
     "background": {
