@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 body {
-    width: 400px;
-    height: 400px;
-    background-color: #E5C25E;
+    min-width: 400px;
+    min-height: 400px;
+    overflow: scroll;
 }
+
 
 
