@@ -253,14 +253,12 @@ function save() {
     var pw = (document.getElementById("password") as HTMLInputElement).value
     var name = localStorage.getItem(url);
     if(name){
-        alert('New Password word added to' + url);
+        alert('New Password word added to ' + url);
     }else{
         var encryptedpw = encrypt(pw);
         localStorage.setItem(url, encryptedpw);
     }
     
-
-    //var decryptedpw = decrypt(encryptedpw);
 }
 
 function del(){
