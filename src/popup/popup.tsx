@@ -20,6 +20,10 @@ const App = () => {
             component: <SaveTab />
         },
         {
+            name: "Find",
+            component: <FindTab />
+        },
+        {
             name: "Get",
             component: <GetTab />
         },
@@ -49,6 +53,7 @@ const HomeTab = () => {
         <div className="text-center font-mono text-xl"> Welcome to your new and safer Password Manager </div>    
     </div>
 }
+
 const CheckTab = () =>{
     return <div>
         <div className="mb-6 mt-[25px]">
@@ -60,25 +65,32 @@ const CheckTab = () =>{
     </div>
 }
 
+const FindTab = () =>{
+    return <div>
+        <div className="mb-6 mt-[25px]">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Page Url</label>
+            <input type="url" id="searchurl" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter url to get pw" required/>
+        </div> 
+        <button type="button" onClick={find} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Find Password</button>
+        
+    </div>   
+}
+
 const SaveTab = () =>{
     return <div>
         <div className="mb-6 mt-[25px]">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Page Url</label>
-            <input type="url" id="url" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required/>
-        </div> 
-        <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Your Username</label>
-            <input type="text" id="username" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required/>
+            <input type="url" id="url" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your url" required/>
         </div> 
         <div className="mb-6">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Your Password</label>
             <input type="password" id="password" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required/>
         </div> 
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
-    
-
+        <button type="button" onClick={save} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+        <button type="button" onClick={del} className=" mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete lS</button>
     </div>
 }
+
 const GetTab = () =>{
     return <div>
         <div className="mb-6 mt-[25px]">
@@ -92,6 +104,7 @@ const GetTab = () =>{
         <button type="button" onClick={erstellen} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get PW</button>
     </div>
 }
+
 const LoginTab = () => {
     return <div>
         <form>
@@ -107,6 +120,7 @@ const LoginTab = () => {
         </form>
     </div>
 }
+
 const RegisterTab = () => { 
     return <div>
         <form>
@@ -234,3 +248,46 @@ function erstellen() {
     }
 }
 
+function save() {
+    var url = (document.getElementById("url") as HTMLInputElement).value
+    var pw = (document.getElementById("password") as HTMLInputElement).value
+    var name = localStorage.getItem(url);
+    if(name){
+        alert('New Password word added to' + url);
+    }else{
+        var encryptedpw = encrypt(pw);
+        localStorage.setItem(url, encryptedpw);
+    }
+    
+
+    //var decryptedpw = decrypt(encryptedpw);
+}
+
+function del(){
+    console.log(localStorage.clear())
+    console.log(localStorage)
+}
+
+function find(){
+    var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
+    var encryptedpw = localStorage.getItem(searchurl)
+    var pw = decrypt(encryptedpw)
+    alert(pw)
+}
+
+var CryptoJS = require("crypto-js/core");
+CryptoJS.AES = require("crypto-js/aes");
+
+const pepper = 'yoru'
+
+function encrypt(pw) {
+    var encrypted = CryptoJS.AES.encrypt((CryptoJS.enc.Utf8.parse(pw)), pepper);
+    return encrypted;
+}
+
+function decrypt(encryptedpw) {
+    //alert(encryptedpw)
+    var decrypted = CryptoJS.AES.decrypt((encryptedpw), pepper).toString(CryptoJS.enc.Utf8);;
+    //alert(decrypted)
+    return decrypted;
+  }
