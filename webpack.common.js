@@ -10,7 +10,8 @@ module.exports = {
         popup: path.resolve('src/popup/popup.tsx'),
         options: path.resolve('src/options/options.tsx'),
         background: path.resolve('src/background/background.ts'),
-        contentScript: path.resolve('src/contentScript/contentScript.ts')
+        contentScript: path.resolve('src/contentScript/contentScript.ts'),
+        setting: path.resolve('src/popup/setting.tsx')
     },
     module: {
         rules: [
@@ -56,9 +57,16 @@ module.exports = {
                 to: path.resolve('dist')
             }]
         }),
+        new CopyPlugin({
+            patterns:[{
+                from: path.resolve('server'),
+                to:path.resolve('dist')
+            }]
+        }),
         ...getHtmlPlugins([
             'popup',
             'options',
+            'setting',
         ])
     ],
     resolve: {

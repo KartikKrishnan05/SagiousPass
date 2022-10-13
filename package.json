@@ -1,11 +1,11 @@
 {
-  "name": "reactjs-chrome",
-  "author": "Himanshu Batra",
+  "name": "SagiousPass",
+  "author": "Kartik Krishnan ",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "watch": "webpack --watch --progress --config webpack.dev.js",
+    "watch": "webpack --watch --progress --config webpack.dev.js ",
     "build": "webpack --watch --progress --config webpack.prod.js"
   },
   "devDependencies": {
@@ -17,8 +17,8 @@
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "postcss-loader": "^7.0.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.0",
     "typescript": "^4.6.4",
@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.7",
+    "axios": "^1.1.2",
     "crypto-js": "^4.1.1",
+    "mysql2": "^2.3.3",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.0.24"
   }
