@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
+import {Buffer} from 'buffer';
+
 
 const App = () => {
     const [selectedTab, setSelectedTab] = useState(0);
@@ -36,65 +38,98 @@ const NavBar = () => {
     </div>
 }
 const LoginTab = () => {
+
+    const login = () => {
+    const usernameLog = (document.getElementById("usernameLog") as HTMLInputElement).value
+    //alert(usernameLog)
+    const passwordLog = (document.getElementById("passwordLog") as HTMLInputElement).value 
+    //alert(passwordLog)
+
+    Axios.post('http://localhost:3000/login', {
+        Username: usernameLog, 
+        Password: passwordLog, 
+    }).then((response) => {
+        if(response.data.message){
+            alert(response.data.message)
+        } else{
+            console.log(response.data[0].Username)
+        }
+    })
+}
+
     return <div>
         <form>
             <div className="mb-6 mt-[25px]">
                 <label className="text-center block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Username</label>
-                <input type="text" id="username" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="username" required/>
+                <input type="text" id="usernameLog" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="username" required/>
             </div> 
             <div className="mb-6">
                 <label className="text-center block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
-                <input type="password" id="password" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="password" required/>
+                <input type="password" id="passwordLog" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="password" required/>
             </div> 
-            <button type="button" className="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">LogIn</button>
+            <button type="button" onClick={login} className="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">LogIn</button>
         </form>
     </div>
+
 }
 
 
 const RegisterTab = () => { 
-    const [usernameReg, setUsernameReg] = useState("");
-    const [passwordReg, setPasswordReg] = useState("");
-    const [favWordReg, setFavWordReg] = useState("");
-    const [favSymbolReg, setFavSymbolReg] = useState("");
+    // const [usernameReg, setUsernameReg] = useState("");
+    // const [passwordReg, setPasswordReg] = useState("");
+    // const [favWordReg, setFavWordReg] = useState("");
+    // const [favSymbolReg, setFavSymbolReg] = useState("");
 
     const register = () => {
-        Axios.post('http://localhost:3000/register', {
-            Username: usernameReg, 
-            Password: passwordReg, 
-            FavWord: favWordReg, 
-            FavSymbol: favSymbolReg
-        }).then((response) => {
-            console.log(response);
-        })
-        alert(usernameReg)
+        const usernameReg = (document.getElementById("usernameReg") as HTMLInputElement).value
+        const passwordReg = (document.getElementById("passwordReg") as HTMLInputElement).value 
+        const favWordReg = (document.getElementById("favWordReg") as HTMLInputElement).value
+        const favSymbolReg = (document.getElementById("favSymbReg") as HTMLInputElement).value
+        const confirmPw = (document.getElementById("confirmpwReg") as HTMLInputElement).value
+
+        if(confirmPw != passwordReg){
+            alert("Confirm Password doenst match with initial Password");
+            (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
+        } else{
+
+            Axios.post('http://localhost:3000/register', {
+                Username: usernameReg, 
+                Password: passwordReg, 
+                FavWord: favWordReg, 
+                FavSymbol: favSymbolReg,
+                // Salt: SaltReg
+            }).then((response) => {
+                console.log(response);
+            })
+
+        alert("Registered");
+
+        (document.getElementById("usernameReg") as HTMLInputElement).value = '';
+        (document.getElementById("passwordReg") as HTMLInputElement).value = '';
+        (document.getElementById("favWordReg") as HTMLInputElement).value = '';
+        (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
+        (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
+
+        }
     }
 
     return <div>
-        <form>
+        <form id="form">
             <div className="mb-3 mt-[10px]">
                 <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300"> Username</label>
-                <input type="text" onChange={(e) => {
-                    setUsernameReg(e.target.value);
-                }} id="usernameReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="username" required/>
+                <input type="text" id="usernameReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="username" required/>
             </div> 
             <div className="mb-3 ">
                 <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Favourite Word</label>
-                <input type="text" onChange={(e) => {
-                    setFavWordReg(e.target.value);
-                }} id="favWordReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="any word you like" required/>
+                <input type="text"id="favWordReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="any word you like" required/>
             </div> 
             <div className="mb-3 ">
                 <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Favourite Symbol</label>
-                <input type="text" onChange={(e) => {
-                    setFavSymbolReg(e.target.value);
-                }} id="favSymbReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="any symbol you like" required/>
+                <input type="text"id="favSymbReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="any symbol you like" required/>
             </div> 
             <div className="mb-3">
                 <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
-                <input type="password" onChange={(e) => {
-                    setPasswordReg(e.target.value);
-                }} id="passwordReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="password" required/>
+                <input type="password"id="passwordReg" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="password" required/>
             </div> 
             <div className="mb-3">
                 <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm Password</label>

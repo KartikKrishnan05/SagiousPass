@@ -4,6 +4,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer')
+const webpack = require('webpack')
 
 module.exports = {
     entry: {
@@ -63,6 +64,9 @@ module.exports = {
                 to:path.resolve('dist')
             }]
         }),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+        }),
         ...getHtmlPlugins([
             'popup',
             'options',
@@ -70,7 +74,10 @@ module.exports = {
         ])
     ],
     resolve: {
-        extensions: ['.tsx', '.js', '.ts']
+        extensions: ['.tsx', '.js', '.ts'],
+        fallback: {
+            buffer: require.resolve('buffer/'),
+        }
     },
     output: {
         filename: '[name].js',

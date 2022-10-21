@@ -23,8 +23,5 @@
             "js": ["contentScript.js"]
         }
     ],
-    "host_permissions": ["http://localhost:3000/*"],
-    "content_security_policy": {
-    "extension_pages": "script-src http://localhost;  object-src http://localhost;"
-    }
+    "host_permissions": ["http://localhost:3000/*"]
 }
