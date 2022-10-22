@@ -186,17 +186,17 @@ const RegisterTab = () => {
         if (symbols.test(favSymbolReg)) {
             if (letters.test(favSymbolReg)) {
                 (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
-                alert("please dont input letters into favSymbol")
+                alert("please dont input Letters with the Symbol")
                 return;
             }
         } else {
             (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
-            alert("please input a Symbol")
+            alert("please input a Letter as the Symbol")
             return;
         }
 
         if (confirmPw != passwordReg) {
-            alert("Confirm Password doenst match with initial Password");
+            alert("Confirm Password doesn't match with initial Password");
             (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
         } else {
             Axios.post('http://localhost:3000/register', {
@@ -208,7 +208,7 @@ const RegisterTab = () => {
                 if (response.data.message) {
                     alert(response.data.message);
                     (document.getElementById("usernameReg") as HTMLInputElement).value = '';
-                }  else{
+                } else {
                     alert("Registered");
                     (document.getElementById("usernameReg") as HTMLInputElement).value = '';
                     (document.getElementById("passwordReg") as HTMLInputElement).value = '';
@@ -270,6 +270,25 @@ const FindTab = () => {
     </div>
 }
 
+function find() {
+
+    var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
+
+    Axios.post('http://localhost:3000/find', {
+        url: searchurl,
+    }).then((response) => {
+        if(response.data.message){
+            alert(response.data.message);
+            (document.getElementById("searchurl") as HTMLInputElement).value ='';
+        } else {
+        var decryptedpw = decrypt(response.data) 
+        alert(decryptedpw)
+        }
+    });
+
+
+}
+
 const SaveTab = () => {
     return <div>
         <div className="mb-6 mt-[25px]">
@@ -281,21 +300,30 @@ const SaveTab = () => {
             <input type="password" id="password" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required />
         </div>
         <button type="button" onClick={save} className="text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
-        <button type="button" onClick={del} className=" my-6 text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete lS</button>
+        <button type="button" onClick={update} className=" my-6 text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Update </button>
     </div>
 }
 
 function save() {
 
-    const urlSave = (document.getElementById("url") as HTMLInputElement).value;
-    const passwordSave = (document.getElementById("password") as HTMLInputElement).value;
+    const UrlSave = (document.getElementById("url") as HTMLInputElement).value;
+    const PasswordSave = (document.getElementById("password") as HTMLInputElement).value;
 
-    Axios.post('/save', {
-                Username: urlSave,
-                Password: passwordSave,
-            }).then((response) => {
-                
-            });
+    var PasswordSaveEnc = encrypt(PasswordSave).toString()
+
+    Axios.post('http://localhost:3000/save', {
+        Username: username,
+        urlSave: UrlSave,
+        passwordSave: PasswordSaveEnc,
+    }).then((response) => {
+        if (response.data.message) {
+            alert(response.data.message);
+        } else{
+            alert("Passward was saved to this url: " + UrlSave);
+            (document.getElementById("url") as HTMLInputElement).value = '';
+            (document.getElementById("password") as HTMLInputElement).value = '';
+        }
+    });
 
     //localStorage: 
     // var name = localStorage.getItem(url);
@@ -306,6 +334,28 @@ function save() {
     //     localStorage.setItem(url, encryptedpw);
     // }
 
+}
+
+function update() {
+
+    const UrlSave = (document.getElementById("url") as HTMLInputElement).value;
+    const PasswordSave = (document.getElementById("password") as HTMLInputElement).value;
+
+    var PasswordSaveEnc = encrypt(PasswordSave).toString()
+
+    Axios.post('http://localhost:3000/update', {
+        Username: username,
+        urlSave: UrlSave,
+        passwordSave: PasswordSaveEnc,
+    }).then((response) => {
+        if (response.data.message) {
+            alert(response.data.message);
+        } else{
+            alert("Passward was updated for this url: " + UrlSave);
+            (document.getElementById("url") as HTMLInputElement).value = '';
+            (document.getElementById("password") as HTMLInputElement).value = '';
+        }
+    });
 }
 
 const CreateTab = () => {
@@ -422,19 +472,6 @@ function überprüfung() {
 
 
 
-
-
-function del() {
-    console.log(localStorage.clear())
-    console.log(localStorage)
-}
-
-function find() {
-    var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
-    var encryptedpw = localStorage.getItem(searchurl)
-    var pw = decrypt(encryptedpw)
-    alert(pw)
-}
 
 var CryptoJS = require("crypto-js/core");
 CryptoJS.AES = require("crypto-js/aes");

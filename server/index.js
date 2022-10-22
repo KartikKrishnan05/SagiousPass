@@ -4,6 +4,7 @@ const app = express()
 const mysql = require('mysql')
 
 const bcrypt = require('bcrypt')
+const { response } = require('express')
 const saltRounds = 10
 const Pepper = "Yoru"
 
@@ -106,10 +107,77 @@ app.post('/getFavWord&Symbol', (req, res) => {
   )
 })
 
+app.post('/save', (req, res) => {
+  const Username = req.body.Username
+  const url = req.body.urlSave;
+  const password = req.body.passwordSave
 
-app.listen(3000, () => {
-  console.log("running server");
+  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url);",
+    url,
+    (err, response) => {
+      if (response.length != 0) {
+        res.send({ message: "Url already has a saved password, if you want to change it please Update it" })
+      } else {
+        dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+          Username,
+          (err, response) => {
+            const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+            //console.log(id)
+            dbconnection.query("INSERT INTO savedpasswords (UserId, Url, password ) VALUES (?,?,?);",
+              [id, url, password],
+              (err, response) => {
+                res.send(response)
+              }
+            )
+          })
+      }
+    })
 })
+
+app.post('/update', (req, res) => {
+  const Username = req.body.Username
+  const url = req.body.urlSave;
+  const password = req.body.passwordSave
+
+  dbconnection.query("SELECT idsavedpasswords FROM savedpasswords WHERE ? IN (Url);",
+    url,
+    (err, response) => {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idsavedpasswords)
+      dbconnection.query("UPDATE savedpasswords SET password = ? WHERE idsavedpasswords = ?;",
+        [password, id],
+        (err, response) => {
+          res.send({ message: "Password was changed for: " + url })
+        })
+    }
+  )
+})
+
+app.post('/find', (req, res) => {
+  const searchurl = req.body.url
+
+  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url);",
+  searchurl,
+    (err, response) => {
+      if (response.length != 0) {
+        dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url);",
+          searchurl,
+          (err, response) => {
+            if (err) {
+              res.send({ message: "No url available" });
+            }
+            res.send(Object.values(JSON.parse(JSON.stringify(response)))[0].password);
+          })
+        } else{
+          res.send({message: "No url found!"})
+        }
+      }
+  )})
+
+
+
+  app.listen(3000, () => {
+    console.log("running server");
+  })
 
 // dbconnection.connect((error) => {
 //     if(error){
