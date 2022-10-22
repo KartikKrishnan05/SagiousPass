@@ -156,7 +156,7 @@ app.post('/find', (req, res) => {
   const searchurl = req.body.url
 
   dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url);",
-  searchurl,
+    searchurl,
     (err, response) => {
       if (response.length != 0) {
         dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url);",
@@ -167,32 +167,72 @@ app.post('/find', (req, res) => {
             }
             res.send(Object.values(JSON.parse(JSON.stringify(response)))[0].password);
           })
-        } else{
-          res.send({message: "No url found!"})
-        }
+      } else {
+        res.send({ message: "No url found!" })
       }
-  )})
+    }
+  )
+})
 
-  app.post('/changefavword', (req, res) => {
-    const favWord = req.body.FavWord
-    const username = req.body.Username
+app.post('/changefavword', (req, res) => {
+  const favWord = req.body.FavWord
+  const username = req.body.Username
 
-    dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+  dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
     username,
     (err, response) => {
       const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-      dbconnection.query("UPDATE useraccount SET favWord = ? WHERE idUserAccount = ?;",
+      dbconnection.query("UPDATE useraccount SET FavWord = ? WHERE idUserAccount = ?;",
         [favWord, id],
         (err, response) => {
-          res.send({message: "Favourite Word was changed to: " + favWord})
+          res.send({ message: "Favourite Word was changed to: " + favWord })
         })
-      })
-  })
+    })
+})
 
+app.post('/changefavsymbol', (req, res) => {
+  const favSmybol = req.body.FavSymbol
+  const username = req.body.Username
 
-  app.listen(3000, () => {
-    console.log("running server");
-  })
+  dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+    username,
+    (err, response) => {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      dbconnection.query("UPDATE useraccount SET FavSymbol = ? WHERE idUserAccount = ?;",
+        [favSmybol, id],
+        (err, response) => {
+          res.send({ message: "Favourite Symbol was changed to: " + favSmybol })
+        })
+    })
+})
+
+app.post('/changepassword', (req, res) => {
+  const newPassword = req.body.NewPassword
+  const username = req.body.Username
+
+  dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+    username,
+    (err, response) => {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      bcrypt.genSalt(saltRounds, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+          if (err) {
+            console.log(err)
+          }
+          dbconnection.query("UPDATE useraccount SET Password = ? WHERE idUserAccount = ?;",
+          [hash, id],
+          (err, response) => {
+            res.send({ message: "Password was changed to: " + hash })
+          })
+        })
+
+    })
+})
+})
+
+app.listen(3000, () => {
+  console.log("running server");
+})
 
 // dbconnection.connect((error) => {
 //     if(error){

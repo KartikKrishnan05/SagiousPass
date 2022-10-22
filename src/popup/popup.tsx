@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
-import axios from 'axios';
 
-
-const username = 'kartik';
-
+var username = 'kartik';
 
 const App = () => {
 
@@ -97,13 +94,13 @@ const Setting = () => {
                 <div className="mb-3 flex flex-col items-center">
                     <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Favourite Symbol</label>
                     <input type="text" id="newFavSymbol" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="any symbol you like" required />
-                    <button type="button" className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change fav Symbol </button>
+                    <button type="button" onClick={changeFavSymbol} className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change fav Symbol </button>
                 </div>
 
                 <div className="mb-3 flex flex-col items-center">
                     <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
                     <input type="password" id="newPassword" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="new password" required />
-                    <button type="button" className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
+                    <button type="button" onClick={changePassword}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
                 </div>
 
             </form>
@@ -111,7 +108,7 @@ const Setting = () => {
     </div>
 }
 
-function changeFavWord(){
+function changeFavWord() {
     const newFavWord = (document.getElementById("newFavWord") as HTMLInputElement).value
 
     if (newFavWord.length > 9) {
@@ -126,18 +123,74 @@ function changeFavWord(){
         return;
     }
 
-    if (newFavWord == '' ) {
-        alert("please input all parameters")
+    if (newFavWord == '') {
+        alert("please input Word parameter")
         return;
     }
 
     Axios.post('http://localhost:3000/changefavword', {
-            FavWord: newFavWord,
-            Username: username
-        }).then((response) => {
-            alert(response.data.message);
-            (document.getElementById("newFavWord") as HTMLInputElement).value = '';
-        })
+        FavWord: newFavWord,
+        Username: username
+    }).then((response) => {
+        alert(response.data.message);
+        (document.getElementById("newFavWord") as HTMLInputElement).value = '';
+    })
+}
+
+function changeFavSymbol() {
+    const newFavSymbol = (document.getElementById("newFavSymbol") as HTMLInputElement).value
+
+    if (newFavSymbol.length >= 2) {
+        (document.getElementById("newFavWord") as HTMLInputElement).value = '';
+        alert("Please only choose one character")
+        return;
+    }
+
+    let symbols = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/§?]+/;
+    let letters = /[a-zA-Z]/;
+
+    if (symbols.test(newFavSymbol)) {
+        if (letters.test(newFavSymbol)) {
+            (document.getElementById("newFavSymbol") as HTMLInputElement).value = '';
+            alert("please dont input Letters with the Symbol")
+            return;
+        }
+    } else {
+        (document.getElementById("newFavSymbol") as HTMLInputElement).value = '';
+        alert("please input a Letter as the Symbol")
+        return;
+    }
+
+    if (newFavSymbol == '') {
+        alert("please input Symbol parameter")
+        return;
+    }
+
+    Axios.post('http://localhost:3000/changefavsymbol', {
+        FavSymbol: newFavSymbol,
+        Username: username
+    }).then((response) => {
+        alert(response.data.message);
+        (document.getElementById("newFavSymbol") as HTMLInputElement).value = '';
+    })
+}
+
+function changePassword() {
+    const newPassword = (document.getElementById("newPassword") as HTMLInputElement).value
+
+
+    if (newPassword == '') {
+        alert("please input Symbol parameter")
+        return;
+    }
+
+    Axios.post('http://localhost:3000/changepassword', {
+        NewPassword: newPassword,
+        Username: username
+    }).then((response) => {
+        alert(response.data.message);
+        (document.getElementById("newPassword") as HTMLInputElement).value = '';
+    })
 }
 
 const NavBar = () => {
@@ -146,9 +199,9 @@ const NavBar = () => {
             <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
                 SagiousPass
             </a>
-            {/* <a onClick={() => setSelectedScreen(2) className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
+            {/* <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
                     User
-            </a> */}
+        </a> */}
         </nav>
     </div>
 }
@@ -224,6 +277,12 @@ const RegisterTab = () => {
         } else {
             (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
             alert("please input a Letter as the Symbol")
+            return;
+        }
+
+        if (favSymbolReg.length >= 2) {
+            (document.getElementById("newFavWord") as HTMLInputElement).value = '';
+            alert("Please only choose one character")
             return;
         }
 
@@ -309,12 +368,12 @@ function find() {
     Axios.post('http://localhost:3000/find', {
         url: searchurl,
     }).then((response) => {
-        if(response.data.message){
+        if (response.data.message) {
             alert(response.data.message);
-            (document.getElementById("searchurl") as HTMLInputElement).value ='';
+            (document.getElementById("searchurl") as HTMLInputElement).value = '';
         } else {
-        var decryptedpw = decrypt(response.data) 
-        alert(decryptedpw)
+            var decryptedpw = decrypt(response.data)
+            alert(decryptedpw)
         }
     });
 
@@ -350,7 +409,7 @@ function save() {
     }).then((response) => {
         if (response.data.message) {
             alert(response.data.message);
-        } else{
+        } else {
             alert("Passward was saved to this url: " + UrlSave);
             (document.getElementById("url") as HTMLInputElement).value = '';
             (document.getElementById("password") as HTMLInputElement).value = '';
@@ -382,7 +441,7 @@ function update() {
     }).then((response) => {
         if (response.data.message) {
             alert(response.data.message);
-        } else{
+        } else {
             alert("Passward was updated for this url: " + UrlSave);
             (document.getElementById("url") as HTMLInputElement).value = '';
             (document.getElementById("password") as HTMLInputElement).value = '';
@@ -501,8 +560,6 @@ function überprüfung() {
         document.getElementById("Note").innerHTML = "Ihr Passwort ist in den top 200 meist genutzten Passwörter";
     }
 }
-
-
 
 
 var CryptoJS = require("crypto-js/core");
