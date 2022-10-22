@@ -173,6 +173,21 @@ app.post('/find', (req, res) => {
       }
   )})
 
+  app.post('/changefavword', (req, res) => {
+    const favWord = req.body.FavWord
+    const username = req.body.Username
+
+    dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+    username,
+    (err, response) => {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      dbconnection.query("UPDATE useraccount SET favWord = ? WHERE idUserAccount = ?;",
+        [favWord, id],
+        (err, response) => {
+          res.send({message: "Favourite Word was changed to: " + favWord})
+        })
+      })
+  })
 
 
   app.listen(3000, () => {
