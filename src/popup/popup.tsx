@@ -64,15 +64,14 @@ function login(){
         Password: passwordLog,
     }).then((response) => {
         if (response.data.message) {
+            alert(response.data.message)
+        } else{
             username = usernameLog;
-            alert(response.data.message);
+            alert("Logging In");
             (document.getElementById("usernameLog") as HTMLInputElement).value = '';
             (document.getElementById("passwordLog") as HTMLInputElement).value = '';
             window.location.href = "home.html?username=" + username;
-        } else{
-            alert("This User was not found or Password and Username don't match")
         }
-
     })
 }
 

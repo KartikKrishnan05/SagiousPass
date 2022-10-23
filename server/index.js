@@ -76,20 +76,18 @@ app.post('/login', (req, res) => {
       if (err) {
         res.send({err: err});
       }
+
       if (result.length > 0) {
         bcrypt.compare(Password, result[0].Password, (error, response) => {
-          bcrypt.genSalt(saltRounds, (err, salt) => {
-          })
           if (response) {
-            res.send({message: "Logged In"})
+            res.send(result)
           } else {
-            res.send({ err: err});
+            res.send({message: "Wrong username/password combination"})
           }
         })
       } else {
-        res.send({err: err});
+        res.send({message: "User can not be found"})
       }
-
     })
 })
 
@@ -212,7 +210,7 @@ app.post('/changefavsymbol', (req, res) => {
 })
 
 app.post('/changepassword', (req, res) => {
-  const newPassword = req.body.NewPassword
+  const newPassword = Pepper + req.body.NewPassword
   const username = req.body.Username
 
   dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
@@ -221,9 +219,6 @@ app.post('/changepassword', (req, res) => {
       const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
       bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(newPassword, salt, (err, hash) => {
-          if (err) {
-            console.log(err)
-          }
           dbconnection.query("UPDATE useraccount SET Password = ? WHERE idUserAccount = ?;",
           [hash, id],
           (err, response) => {
@@ -241,6 +236,18 @@ app.post('/deleteuser', (req, res) => {
   username,
   (err, response) => {
     res.send({message: "User: " + username + " was deleted succesfully"})
+    dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+    username,
+    (err, response) => {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      dbconnection.query("DELETE FROM savedpasswords WHERE ? IN (UserId)",
+      id,
+      (err, response) => {
+        if(err){
+          console.log(err)
+        }
+      })
+    })
   })
 
 })

@@ -46,9 +46,8 @@ function deleteuser(){
         Username: Username
     }).then((response) => {
         if(response.data.message){
-        alert(response.data.message);
         window.location.href = "popup.html"
-    }
+        }
     })
 }
 
