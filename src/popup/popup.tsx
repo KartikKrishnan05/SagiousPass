@@ -60,8 +60,10 @@ const LoginTab = () => {
                 (document.getElementById("usernameLog") as HTMLInputElement).value = '';
                 (document.getElementById("passwordLog") as HTMLInputElement).value = '';
                 window.location.href="home.html?username=" + username;
+            } else{
+                alert("This User was not found or Password and Username don't match")
             }
-            //alert(username)
+            
         })
     }
 
@@ -95,13 +97,20 @@ const RegisterTab = () => {
         const favSymbolReg = (document.getElementById("favSymbReg") as HTMLInputElement).value
         const confirmPw = (document.getElementById("confirmpwReg") as HTMLInputElement).value
 
-        if (usernameReg.length > 9) {
+        if(passwordReg.length > 71 ){
+            (document.getElementById("passwordReg") as HTMLInputElement).value = '';
+            (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
+            alert("Please choose shorter password")
+            return;
+        }
+
+        if (favWordReg.length > 9) {
             (document.getElementById("favWordReg") as HTMLInputElement).value = '';
             alert("Please choose shorter word")
             return;
         }
 
-        if (usernameReg.length < 6) {
+        if (favWordReg.length < 6) {
             (document.getElementById("favWordReg") as HTMLInputElement).value = '';
             alert("Please choose a longer word")
             return;
@@ -112,18 +121,18 @@ const RegisterTab = () => {
             return;
         }
 
-        let symbols = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/§?]+/;
+        let symbols = /[!@#$%^&*()_~+\-=\[\]{};':"\\|,.<>\/§?]+/;
         let letters = /[a-zA-Z]/;
 
         if (symbols.test(favSymbolReg)) {
             if (letters.test(favSymbolReg)) {
                 (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
-                alert("please dont input Letters with the Symbol")
+                alert("please don't input Letters with the Symbol")
                 return;
             }
         } else {
             (document.getElementById("favSymbReg") as HTMLInputElement).value = '';
-            alert("please input a Letter as the Symbol")
+            alert("please don't input a Letter as the Symbol")
             return;
         }
 

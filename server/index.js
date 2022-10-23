@@ -81,11 +81,11 @@ app.post('/login', (req, res) => {
           if (response) {
             res.send({message: "Logged In"})
           } else {
-            res.send({ message: "Wrong username/password combination" });
+            res.send({ err: err});
           }
         })
       } else {
-        res.send({ message: "User doesn't exist" });
+        res.send({err: err});
       }
 
     })

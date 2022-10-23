@@ -3,9 +3,15 @@ import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
 
-var username = '';
+function getParameter () {
+    let parameter = new URLSearchParams(window.location.search);
+    return parameter.get("username")
+}
+
+var Username =  getParameter()
 
 const Setting = () => {
+    alert(Username)
     return <>
     <NavBar />
         <div className="w-full flex flex-col items-center justify-items-stretch rounded">
@@ -26,7 +32,6 @@ const Setting = () => {
                     <input type="password" id="newPassword" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="new password" required />
                     <button type="button" onClick={changePassword}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
                 </div>
-
             </form>
         </div>
     </>
@@ -38,16 +43,14 @@ const NavBar = () => {
                 <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
                   SagiousPass
                 </a>
-                <a href="home.html" className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
+                <a href={"home.html?username=" + Username} className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
                     Home
                 </a>
           </nav>
     </div>
 }
 
-const setting = () => {
 
-}
 
 function changeFavWord() {
     const newFavWord = (document.getElementById("newFavWord") as HTMLInputElement).value
@@ -71,7 +74,7 @@ function changeFavWord() {
 
     Axios.post('http://localhost:3000/changefavword', {
         FavWord: newFavWord,
-        Username: username
+        Username: Username
     }).then((response) => {
         alert(response.data.message);
         (document.getElementById("newFavWord") as HTMLInputElement).value = '';
@@ -109,7 +112,7 @@ function changeFavSymbol() {
 
     Axios.post('http://localhost:3000/changefavsymbol', {
         FavSymbol: newFavSymbol,
-        Username: username
+        Username: Username
     }).then((response) => {
         alert(response.data.message);
         (document.getElementById("newFavSymbol") as HTMLInputElement).value = '';
@@ -127,7 +130,7 @@ function changePassword() {
 
     Axios.post('http://localhost:3000/changepassword', {
         NewPassword: newPassword,
-        Username: username
+        Username: Username
     }).then((response) => {
         alert(response.data.message);
         (document.getElementById("newPassword") as HTMLInputElement).value = '';

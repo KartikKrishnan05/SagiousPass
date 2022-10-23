@@ -8,8 +8,6 @@ function getParameter () {
     return parameter.get("username")
 }
 
-
-
 var Username =  getParameter()
 
 const Home = () => {
@@ -49,12 +47,14 @@ const NavBar = () => {
                 <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
                   SagiousPass
                 </a>
-                <a href="setting.html" className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
+                <a href={"setting.html?username=" + Username} className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
                     User
                 </a>
           </nav>
     </div>
 }
+
+
 
 const CheckTab = () => {
     return <div>
