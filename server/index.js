@@ -26,14 +26,15 @@ app.post('/register', (req, res) => {
 
   const Username = req.body.Username
   const Password = Pepper + req.body.Password
-
   const FavWord = req.body.FavWord
   const FavSymbol = req.body.FavSymbol
 
   dbconnection.query("SELECT * FROM useraccount WHERE ? IN (Username);",
     Username,
     (err, response) => {
-      //console.log(response)
+      if(err){
+        res.send({err: err})
+      }
       if (response.length != 0) {
         res.send({ message: "Username already exists, choose a different one" })
       } else {
@@ -41,17 +42,18 @@ app.post('/register', (req, res) => {
           Username,
           (err, response) => {
             if (err) {
-              console.log(err)
+              res.send({err: err})
             } else {
               bcrypt.genSalt(saltRounds, (err, salt) => {
                 bcrypt.hash(Password, salt, (err, hash) => {
                   if (err) {
-                    console.log(err)
+                    res.send({err: err})
                   }
                   dbconnection.query("INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
                     [Username, hash, FavWord, FavSymbol],
                     (err, result) => {
-                      console.log(err);
+                      res.send({err: err})
+                      res.send({message: result})
                     })
                 })
               })
@@ -231,6 +233,16 @@ app.post('/changepassword', (req, res) => {
 
     })
 })
+})
+
+app.post('/deleteuser', (req, res) => {
+  const username = req.body.Username
+  dbconnection.query("DELETE FROM useraccount WHERE ? IN (Username) ;", 
+  username,
+  (err, response) => {
+    res.send({message: "User: " + username + " was deleted succesfully"})
+  })
+
 })
 
 app.listen(3000, () => {
