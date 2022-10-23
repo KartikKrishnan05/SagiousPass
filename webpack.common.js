@@ -12,7 +12,8 @@ module.exports = {
         options: path.resolve('src/options/options.tsx'),
         background: path.resolve('src/background/background.ts'),
         contentScript: path.resolve('src/contentScript/contentScript.ts'),
-        setting: path.resolve('src/popup/setting.tsx')
+        setting: path.resolve('src/popup/setting.tsx'),
+        home: path.resolve('src/popup/home.tsx')
     },
     module: {
         rules: [
@@ -69,7 +70,7 @@ module.exports = {
         }),
         ...getHtmlPlugins([
             'popup',
-            'options',
+            'home',
             'setting',
         ])
     ],

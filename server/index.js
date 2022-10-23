@@ -72,18 +72,14 @@ app.post('/login', (req, res) => {
     Username,
     (err, result) => {
       if (err) {
-        res.send({ err: err });
+        res.send({err: err});
       }
       if (result.length > 0) {
         bcrypt.compare(Password, result[0].Password, (error, response) => {
           bcrypt.genSalt(saltRounds, (err, salt) => {
-            bcrypt.hash(Password, salt, (err, hash) => {
-              console.log(hash)
-            })
           })
-          console.log(result[0].Password)
           if (response) {
-            res.send()
+            res.send({message: "Logged In"})
           } else {
             res.send({ message: "Wrong username/password combination" });
           }
@@ -112,27 +108,27 @@ app.post('/save', (req, res) => {
   const url = req.body.urlSave;
   const password = req.body.passwordSave
 
-  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url);",
-    url,
+  dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+  Username,
+  (err, response) => {
+    const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+    //console.log(id)
+  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
+    [url, id],
     (err, response) => {
       if (response.length != 0) {
         res.send({ message: "Url already has a saved password, if you want to change it please Update it" })
       } else {
-        dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
-          Username,
-          (err, response) => {
-            const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-            //console.log(id)
             dbconnection.query("INSERT INTO savedpasswords (UserId, Url, password ) VALUES (?,?,?);",
               [id, url, password],
               (err, response) => {
                 res.send(response)
               }
             )
-          })
       }
     })
-})
+  })
+  })
 
 app.post('/update', (req, res) => {
   const Username = req.body.Username
@@ -154,13 +150,19 @@ app.post('/update', (req, res) => {
 
 app.post('/find', (req, res) => {
   const searchurl = req.body.url
+  const Username = req.body.username;
 
-  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url);",
-    searchurl,
+  dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
+  Username,
+  (err, response) => {
+    const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+    console.log(id)
+  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId) ;",
+    [searchurl, id],
     (err, response) => {
       if (response.length != 0) {
-        dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url);",
-          searchurl,
+        dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
+          [searchurl, id],
           (err, response) => {
             if (err) {
               res.send({ message: "No url available" });
@@ -172,6 +174,7 @@ app.post('/find', (req, res) => {
       }
     }
   )
+})
 })
 
 app.post('/changefavword', (req, res) => {

@@ -1,36 +1,39 @@
 import React, { useState } from 'react'
 import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
+import Axios from 'axios'
+import Username from './popup'
+
+var username = Username;
 
 const App = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const tabs = [
-    {
-        name: "Create",
-        component: <CreateTab />
-    },
-    {
-        name: "Save",
-        component: <SaveTab />
-    },
-    {
-        name: "Check",
-        component: <CheckTab />
-    },
-    {
-        name: "Find",
-        component: <FindTab />
-    }
+        {
+            name: "Create",
+            component: <CreateTab />
+        },
+        {
+            name: "Save",
+            component: <SaveTab />
+        },
+        {
+            name: "Check",
+            component: <CheckTab />
+        },
+        {
+            name: "Find",
+            component: <FindTab />
+        }
     ]
     return <>
-
-    <NavBar />
-    <div className="w-full flex flex-col items-center justify-items-stretch rounded">
-    <div className="flex flex-row items-center justify-items-stretch w-full shadow cursor-pointer">
-          {tabs.map((tab, i) => <div key={i} className={ "flex-1 flex justify-center items-center p-2 pt-4 border-b-2 mt-[-20px]"} onClick={() => setSelectedTab(i)}>{tab.name}</div>)}
-    </div>
-    {tabs[selectedTab].component}
-    </div>
+        <NavBar />
+        <div className="w-full flex flex-col items-center justify-items-stretch rounded">
+            <div className="flex flex-row items-center justify-items-stretch w-full shadow cursor-pointer">
+                {tabs.map((tab, i) => <div key={i} className={"flex-1 flex justify-center items-center p-2 pt-4 border-b-2 mt-[-20px]"} onClick={() => setSelectedTab(i)}>{tab.name}</div>)}
+            </div>
+            {tabs[selectedTab].component}
+        </div>
     </>
 }
 
@@ -47,44 +50,119 @@ const NavBar = () => {
     </div>
 }
 
-const CheckTab = () =>{
+const CheckTab = () => {
     return <div>
         <div className="mb-6 mt-[25px]">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Test you current Password:</label>
-            <input type="password" id="testpw" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required/>
-        </div> 
+            <input type="password" id="testpw" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required />
+        </div>
         <button type="button" onClick={überprüfung} className="text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Check</button>
-        <p id="result" className="mt-[25px]"> Ihr Passwort ist:  </p> 
+        <p id="result" className="mt-[25px]"> Ihr Passwort ist:  </p>
     </div>
 }
 
-const FindTab = () =>{
+const FindTab = () => {
     return <div>
         <div className="mb-6 mt-[25px]">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Page Url</label>
-            <input type="url" id="searchurl" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter url to remember pw ;)" required/>
-        </div> 
+            <input type="url" id="searchurl" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter url to remember pw ;)" required />
+        </div>
         <button type="button" onClick={find} className="text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Find Password</button>
-        
-    </div>   
+
+    </div>
 }
 
-const SaveTab = () =>{
+function find() {
+
+    var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
+    var Username = username
+
+    Axios.post('http://localhost:3000/find', {
+        username: Username,
+        url: searchurl,
+    }).then((response) => {
+        if (response.data.message) {
+            alert(response.data.message);
+            (document.getElementById("searchurl") as HTMLInputElement).value = '';
+        } else {
+            var decryptedpw = decrypt(response.data)
+            alert(decryptedpw)
+        }
+    });
+
+
+}
+
+const SaveTab = () => {
     return <div>
         <div className="mb-6 mt-[25px]">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Page Url</label>
-            <input type="url" id="url" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your url" required/>
-        </div> 
+            <input type="url" id="url" className="outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your url" required />
+        </div>
         <div className="mb-6">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">Your Password</label>
-            <input type="password" id="password" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required/>
-        </div> 
+            <input type="password" id="password" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="Enter your password" required />
+        </div>
         <button type="button" onClick={save} className="text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
-        <button type="button" onClick={del} className=" my-6 text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete lS</button>
+        <button type="button" onClick={update} className=" my-6 text-white  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Update </button>
     </div>
 }
 
-const CreateTab = () =>{
+function save() {
+
+    const UrlSave = (document.getElementById("url") as HTMLInputElement).value;
+    const PasswordSave = (document.getElementById("password") as HTMLInputElement).value;
+
+    var PasswordSaveEnc = encrypt(PasswordSave).toString()
+
+    Axios.post('http://localhost:3000/save', {
+        Username: username,
+        urlSave: UrlSave,
+        passwordSave: PasswordSaveEnc,
+    }).then((response) => {
+        if (response.data.message) {
+            alert(response.data.message);
+        } else {
+            alert("Passward was saved to this url: " + UrlSave);
+            (document.getElementById("url") as HTMLInputElement).value = '';
+            (document.getElementById("password") as HTMLInputElement).value = '';
+        }
+    });
+
+    //localStorage: 
+    // var name = localStorage.getItem(url);
+    // if (name) {
+    //     alert('New Password word added to ' + url);
+    // } else {
+    //     var encryptedpw = encrypt(pw);
+    //     localStorage.setItem(url, encryptedpw);
+    // }
+
+}
+
+function update() {
+
+    const UrlSave = (document.getElementById("url") as HTMLInputElement).value;
+    const PasswordSave = (document.getElementById("password") as HTMLInputElement).value;
+
+    var PasswordSaveEnc = encrypt(PasswordSave).toString()
+
+    Axios.post('http://localhost:3000/update', {
+        Username: username,
+        urlSave: UrlSave,
+        passwordSave: PasswordSaveEnc,
+    }).then((response) => {
+        if (response.data.message) {
+            alert(response.data.message);
+        } else {
+            alert("Passward was updated for this url: " + UrlSave);
+            (document.getElementById("url") as HTMLInputElement).value = '';
+            (document.getElementById("password") as HTMLInputElement).value = '';
+        }
+    });
+}
+
+const CreateTab = () => {
     return <div>
         {/* <div className="mb-6 mt-[25px]">
             <label className=" text-center block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your Favourite Word:</label>
@@ -98,8 +176,56 @@ const CreateTab = () =>{
     </div>
 }
 
+function erstellen() {
+
+    Axios.post('http://localhost:3000/getFavWord&Symbol', {
+        Username: username
+    }).then((result) => {
+        console.log(result)
+        var favW;
+        favW = result.data[0].FavWord;
+        //alert(favW)
+        var favS;
+        favS = result.data[0].FavSymbol;
+        //alert(favS)
+
+        var password;
+        var w = favW.length;
+        // alert(w)
+
+        function generateRandom(maxLimit = w) {
+            let rand = Math.random() * maxLimit;
+            rand = Math.round(rand);
+            return rand;
+        }
+
+        var firstNumber = generateRandom(w);
+        var secondNumber = generateRandom(w);
+
+        while (firstNumber == 0) {
+            firstNumber = generateRandom(w);
+        }
+        while (secondNumber == 0) {
+            secondNumber = generateRandom(w);
+        }
+
+        while (firstNumber == secondNumber) {
+            secondNumber = generateRandom(w);
+        }
+
+        const newfavW = favW.slice(0, firstNumber - 1) + favW.charAt(firstNumber - 1).toUpperCase() + favW.slice(firstNumber);
+        const finalfavW = newfavW.slice(0, secondNumber - 1) + newfavW.charAt(secondNumber - 1).toUpperCase() + newfavW.slice(secondNumber);
+
+        password = finalfavW + favS + firstNumber + '' + secondNumber;
+        alert(password);
+    });
+
+
+
+}
+
 function überprüfung() {
-    
+
     var TestPass = (document.getElementById("testpw") as HTMLInputElement).value
     var strength = 6;
 
@@ -121,7 +247,7 @@ function überprüfung() {
         strength--;
     }
     if (!hasNumbers) {
-        strength--; 
+        strength--;
     }
     if (!hasSpecial) {
         strength--;
@@ -148,78 +274,11 @@ function überprüfung() {
     }
 }
 
-function erstellen() {
-
-    var favW = (document.getElementById("favWord") as HTMLInputElement).value
-    var favS = (document.getElementById("favSymb") as HTMLInputElement).value
-   
-    if(favW.length < 6){
-        alert("Please choose a longer Word")
-    } else if(favW.length == 0 ){
-        alert("Please input Word")
-    } else if(favS.length == 0){
-        alert("please input a Symbol")
-    } else{
-    var password;
-    var w = favW.length;
-
-    function generateRandom(maxLimit = w){
-      let rand = Math.random() * maxLimit;    
-      rand = Math.round(rand);
-      return rand;
-    }
-
-    var firstNumber = generateRandom(w);
-    var secondNumber = generateRandom(w);
-
-    while(firstNumber == 0){
-      firstNumber = generateRandom(w);
-    }
-    while (secondNumber == 0){
-      secondNumber = generateRandom(w);
-    }
-    
-    while(firstNumber == secondNumber){
-      secondNumber = generateRandom(w);
-    }
-
-    const newfavW = favW.slice (0, firstNumber - 1) + favW.charAt(firstNumber - 1).toUpperCase() + favW.slice(firstNumber);
-    const finalfavW = newfavW.slice(0, secondNumber -1) + newfavW.charAt(secondNumber -1).toUpperCase() + newfavW.slice(secondNumber);
-
-    password = finalfavW + favS + firstNumber + '' + secondNumber;
-    alert(password);
-    }
-}
-
-function save() {
-    var url = (document.getElementById("url") as HTMLInputElement).value
-    var pw = (document.getElementById("password") as HTMLInputElement).value
-    var name = localStorage.getItem(url);
-    if(name){
-        alert('New Password word added to ' + url);
-    }else{
-        var encryptedpw = encrypt(pw);
-        localStorage.setItem(url, encryptedpw);
-    }
-    
-}
-
-function del(){
-    console.log(localStorage.clear())
-    console.log(localStorage)
-}
-
-function find(){
-    var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
-    var encryptedpw = localStorage.getItem(searchurl)
-    var pw = decrypt(encryptedpw)
-    alert(pw)
-}
 
 var CryptoJS = require("crypto-js/core");
 CryptoJS.AES = require("crypto-js/aes");
 
-const pepper = 'yoru'
+const pepper = 'Yoru'
 
 function encrypt(pw) {
     var encrypted = CryptoJS.AES.encrypt((CryptoJS.enc.Utf8.parse(pw)), pepper);
@@ -231,7 +290,8 @@ function decrypt(encryptedpw) {
     var decrypted = CryptoJS.AES.decrypt((encryptedpw), pepper).toString(CryptoJS.enc.Utf8);;
     //alert(decrypted)
     return decrypted;
-  }
+}
+
 
 const container = document.createElement('div')
 document.body.appendChild(container)
