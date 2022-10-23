@@ -1,10 +1,27 @@
-CREATE TABLE `sagiouspass`.`useraccount` (
-  `idUserAccount` INT NOT NULL,
-  `Username` VARCHAR(45) NOT NULL,
-  `Password` INT NOT NULL,
-  `FavWord` VARCHAR(45) NOT NULL,
-  `FavSymbol` VARCHAR(45) NOT NULL,
+CREATE TABLE `useraccount` (
+  `idUserAccount` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(45) NOT NULL,
+  `Password` varchar(60) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `FavWord` varchar(45) NOT NULL,
+  `FavSymbol` varchar(45) NOT NULL,
   PRIMARY KEY (`idUserAccount`),
-  UNIQUE INDEX `Username_UNIQUE` (`Username` ASC) VISIBLE);
+  UNIQUE KEY `Username_UNIQUE` (`Username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
-  
+
+
+CREATE TABLE `savedpasswords` (
+  `idsavedpasswords` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) NOT NULL,
+  `Url` varchar(45) NOT NULL,
+  `password` varchar(60) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  PRIMARY KEY (`idsavedpasswords`),
+  KEY `fk_userid_idx` (`UserId`),
+  CONSTRAINT `fk_userid` FOREIGN KEY (`UserId`) REFERENCES `useraccount` (`idUserAccount`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+/*
+ALTER TABLE useraccount AUTO_INCREMENT = 1;
+
+ALTER TABLE savedpasswords AUTO_INCREMENT = 1;
+*/
