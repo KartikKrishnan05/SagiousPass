@@ -2,11 +2,17 @@ import React, { useState } from 'react'
 import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
-import Username from './popup'
 
-var username = Username;
+function getParameter () {
+    let parameter = new URLSearchParams(window.location.search);
+    return parameter.get("username")
+}
 
-const App = () => {
+
+
+var Username =  getParameter()
+
+const Home = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const tabs = [
         {
@@ -75,7 +81,7 @@ const FindTab = () => {
 function find() {
 
     var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
-    var Username = username
+    var Username = Username
 
     Axios.post('http://localhost:3000/find', {
         username: Username,
@@ -116,7 +122,7 @@ function save() {
     var PasswordSaveEnc = encrypt(PasswordSave).toString()
 
     Axios.post('http://localhost:3000/save', {
-        Username: username,
+        Username: Username,
         urlSave: UrlSave,
         passwordSave: PasswordSaveEnc,
     }).then((response) => {
@@ -148,7 +154,7 @@ function update() {
     var PasswordSaveEnc = encrypt(PasswordSave).toString()
 
     Axios.post('http://localhost:3000/update', {
-        Username: username,
+        Username: Username,
         urlSave: UrlSave,
         passwordSave: PasswordSaveEnc,
     }).then((response) => {
@@ -179,7 +185,7 @@ const CreateTab = () => {
 function erstellen() {
 
     Axios.post('http://localhost:3000/getFavWord&Symbol', {
-        Username: username
+        Username: Username
     }).then((result) => {
         console.log(result)
         var favW;
@@ -296,4 +302,4 @@ function decrypt(encryptedpw) {
 const container = document.createElement('div')
 document.body.appendChild(container)
 const root = createRoot(container)
-root.render(<App />)
+root.render(<Home />)

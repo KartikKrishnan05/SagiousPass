@@ -3,7 +3,7 @@ import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
 
-var Username;
+var username;
 
 const App = () => {
 
@@ -40,6 +40,8 @@ const NavBar = () => {
     </div>
 }
 
+
+
 const LoginTab = () => {
 
     const login = () => {
@@ -53,15 +55,17 @@ const LoginTab = () => {
             Password: passwordLog,
         }).then((response) => {
             if (response.data.message) {
-                Username = usernameLog;
+                username = usernameLog;
                 alert(response.data.message);
                 (document.getElementById("usernameLog") as HTMLInputElement).value = '';
                 (document.getElementById("passwordLog") as HTMLInputElement).value = '';
-                window.location.href="home.html";
+                window.location.href="home.html?username=" + username;
             }
             //alert(username)
         })
     }
+
+
 
     return <div>
         <form>
@@ -78,6 +82,7 @@ const LoginTab = () => {
     </div>
 
 }
+
 
 const RegisterTab = () => {
     const register = () => {
@@ -182,7 +187,6 @@ const RegisterTab = () => {
 }
 
 
-export default Username;
 
 const container = document.createElement('div')
 document.body.appendChild(container)
