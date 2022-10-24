@@ -1,3 +1,6 @@
+/* Query code um die Datenbank auf seinem eigenem Gerät aufzusetzen */
+
+
 CREATE TABLE `useraccount` (
   `idUserAccount` int(11) NOT NULL AUTO_INCREMENT,
   `Username` varchar(45) NOT NULL,

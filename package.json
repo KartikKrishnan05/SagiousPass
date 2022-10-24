@@ -1,7 +1,7 @@
 {
   "name": "SagiousPass",
-  "author": "Kartik Krishnan ",
-  "version": "1.0.0",
+  "author": "Kartik Krishnan",
+  "version": "3.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

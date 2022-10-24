@@ -7,7 +7,6 @@ function getParameter () {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
 }
-
 var Username =  getParameter()
 
 const Setting = () => {
@@ -65,8 +64,6 @@ const NavBar = () => {
           </nav>
     </div>
 }
-
-
 
 function changeFavWord() {
     const newFavWord = (document.getElementById("newFavWord") as HTMLInputElement).value
@@ -152,7 +149,6 @@ function changePassword() {
         (document.getElementById("newPassword") as HTMLInputElement).value = '';
     })
 }
-
 
 const container = document.createElement('div')
 document.body.appendChild(container)
