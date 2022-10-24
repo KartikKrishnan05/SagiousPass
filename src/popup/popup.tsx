@@ -41,7 +41,6 @@ const NavBar = () => {
 }
 
 
-
 const LoginTab = () => {
 
     const login = () => {
@@ -50,22 +49,20 @@ const LoginTab = () => {
         const passwordLog = (document.getElementById("passwordLog") as HTMLInputElement).value
         //alert(passwordLog)
 
-    Axios.post('http://localhost:3000/login', {
-        Username: usernameLog,
-        Password: passwordLog,
-    }).then((response) => {
-        if (response.data.message) {
-            username = usernameLog;
-            alert(response.data.message);
-            (document.getElementById("usernameLog") as HTMLInputElement).value = '';
-            (document.getElementById("passwordLog") as HTMLInputElement).value = '';
-            window.location.href = "home.html?username=" + username;
-        } else{
-            alert("This User was not found or Password and Username don't match")
-        }
-
-    })
-}
+        Axios.post('http://localhost:3000/login', {
+            Username: usernameLog,
+            Password: passwordLog,
+        }).then((response) => {
+            if (response.data.message) {
+                alert("This User was not found or Password and Username don't match")
+            } else {
+                username = usernameLog;
+                (document.getElementById("usernameLog") as HTMLInputElement).value = '';
+                (document.getElementById("passwordLog") as HTMLInputElement).value = '';
+                window.location.href = "home.html?username=" + username;
+            }
+        })
+    }
 
 
 
@@ -97,7 +94,7 @@ const RegisterTab = () => {
         const favSymbolReg = (document.getElementById("favSymbReg") as HTMLInputElement).value
         const confirmPw = (document.getElementById("confirmpwReg") as HTMLInputElement).value
 
-        if(passwordReg.length > 71 ){
+        if (passwordReg.length > 71) {
             (document.getElementById("passwordReg") as HTMLInputElement).value = '';
             (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
             alert("Please choose shorter password")

@@ -43,8 +43,7 @@ app.post('/register', (req, res) => {
             if (err) {
               console.log(err)
             } else {
-              bcrypt.genSalt(saltRounds, (err, salt) => {
-                bcrypt.hash(Password, salt, (err, hash) => {
+                bcrypt.hash(Password, saltRounds, (err, hash) => {
                   if (err) {
                     console.log(err)
                   }
@@ -54,7 +53,6 @@ app.post('/register', (req, res) => {
                       console.log(err);
                     })
                 })
-              })
             }
           })
         res.send(response)
@@ -74,11 +72,10 @@ app.post('/login', (req, res) => {
       if (err) {
         res.send({err: err});
       }
-
       if (result.length > 0) {
         bcrypt.compare(Password, result[0].Password, (error, response) => {
           if (response) {
-            res.send(result)
+            res.send(response)
           } else {
             res.send({message: "Wrong username/password combination"})
           }
