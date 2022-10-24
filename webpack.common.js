@@ -10,7 +10,11 @@ module.exports = {
     entry: {
         popup: path.resolve('src/popup/popup.tsx'),
         setting: path.resolve('src/popup/setting.tsx'),
-        home: path.resolve('src/popup/home.tsx')
+        home: path.resolve('src/popup/home.tsx'),
+        options: path.resolve('src/options/options.tsx'),
+        background: path.resolve('src/background/background.tsx'),
+        contentScript: path.resolve('src/contentScripts/contentScripts.tsx') 
+
     },
     module: {
         rules: [
