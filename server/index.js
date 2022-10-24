@@ -43,16 +43,16 @@ app.post('/register', (req, res) => {
             if (err) {
               console.log(err)
             } else {
-                bcrypt.hash(Password, saltRounds, (err, hash) => {
-                  if (err) {
-                    console.log(err)
-                  }
-                  dbconnection.query("INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
-                    [Username, hash, FavWord, FavSymbol],
-                    (err, result) => {
-                      console.log(err);
-                    })
-                })
+              bcrypt.hash(Password, saltRounds, (err, hash) => {
+                if (err) {
+                  console.log(err)
+                }
+                dbconnection.query("INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
+                  [Username, hash, FavWord, FavSymbol],
+                  (err, result) => {
+                    console.log(err);
+                  })
+              })
             }
           })
         res.send(response)
@@ -70,18 +70,18 @@ app.post('/login', (req, res) => {
     Username,
     (err, result) => {
       if (err) {
-        res.send({err: err});
+        res.send({ err: err });
       }
       if (result.length > 0) {
         bcrypt.compare(Password, result[0].Password, (error, response) => {
           if (response) {
             res.send(response)
           } else {
-            res.send({message: "Wrong username/password combination"})
+            res.send({ message: "Wrong username/password combination" })
           }
         })
       } else {
-        res.send({message: "User can not be found"})
+        res.send({ message: "User can not be found" })
       }
     })
 })
@@ -104,26 +104,26 @@ app.post('/save', (req, res) => {
   const password = req.body.passwordSave
 
   dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
-  Username,
-  (err, response) => {
-    const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-    //console.log(id)
-  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
-    [url, id],
+    Username,
     (err, response) => {
-      if (response.length != 0) {
-        res.send({ message: "Url already has a saved password, if you want to change it please Update it" })
-      } else {
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      //console.log(id)
+      dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
+        [url, id],
+        (err, response) => {
+          if (response.length != 0) {
+            res.send({ message: "Url already has a saved password, if you want to change it please Update it" })
+          } else {
             dbconnection.query("INSERT INTO savedpasswords (UserId, Url, password ) VALUES (?,?,?);",
               [id, url, password],
               (err, response) => {
                 res.send(response)
               }
             )
-      }
+          }
+        })
     })
-  })
-  })
+})
 
 app.post('/update', (req, res) => {
   const Username = req.body.Username
@@ -148,28 +148,28 @@ app.post('/find', (req, res) => {
   const Username = req.body.username;
 
   dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
-  Username,
-  (err, response) => {
-    const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-    console.log(id)
-  dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId) ;",
-    [searchurl, id],
+    Username,
     (err, response) => {
-      if (response.length != 0) {
-        dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
-          [searchurl, id],
-          (err, response) => {
-            if (err) {
-              res.send({ message: "No url available" });
-            }
-            res.send(Object.values(JSON.parse(JSON.stringify(response)))[0].password);
-          })
-      } else {
-        res.send({ message: "No url found!" })
-      }
-    }
-  )
-})
+      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
+      console.log(id)
+      dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId) ;",
+        [searchurl, id],
+        (err, response) => {
+          if (response.length != 0) {
+            dbconnection.query("SELECT password FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId);",
+              [searchurl, id],
+              (err, response) => {
+                if (err) {
+                  res.send({ message: "No url available" });
+                }
+                res.send(Object.values(JSON.parse(JSON.stringify(response)))[0].password);
+              })
+          } else {
+            res.send({ message: "No url found!" })
+          }
+        }
+      )
+    })
 })
 
 app.post('/changefavword', (req, res) => {
@@ -215,37 +215,38 @@ app.post('/changepassword', (req, res) => {
       bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(newPassword, salt, (err, hash) => {
           dbconnection.query("UPDATE useraccount SET Password = ? WHERE idUserAccount = ?;",
-          [hash, id],
-          (err, response) => {
-            res.send({ message: "Password was changed to: " + hash })
-          })
+            [hash, id],
+            (err, response) => {
+              res.send({ message: "Password was changed to: " + hash })
+            })
         })
-
+      })
     })
-})
 })
 
 app.post('/deleteuser', (req, res) => {
   const username = req.body.Username
-  dbconnection.query("DELETE FROM useraccount WHERE ? IN (Username) ;", 
-  username,
-  (err, response) => {
-    res.send({message: "User: " + username + " was deleted succesfully"})
-  })
-
+  dbconnection.query("DELETE FROM useraccount WHERE ? IN (Username) ;",
+    username,
+    (err, response) => {
+      res.send({ message: "User: " + username + " was deleted succesfully" })
+    })
 })
 
 app.listen(3000, () => {
   console.log("running server");
 })
 
-// dbconnection.connect((error) => {
-//     if(error){
-//       console.log('Error connecting to the MySQL Database');
-//       return;
-//     }
-//     console.log('Connection established sucessfully');
-//   });
 
-  //dbconnection.end((error) => {
-  //});
+/* 
+dbconnection.connect((error) => {
+    if(error){
+      console.log('Error connecting to the MySQL Database');
+      return;
+    }
+    console.log('Connection established sucessfully');
+  });
+
+  dbconnection.end((error) => {
+  });
+  */

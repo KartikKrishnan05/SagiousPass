@@ -7,7 +7,6 @@ function getParameter () {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
 }
-
 var Username =  getParameter()
 
 const Home = () => {

@@ -1,4 +1,1 @@
-/**chrome.runtime.sendMessage("From the content script", (response) => {
-    console.log(response);
-})
-**/
+/* Content Script wird in diesem Projekt nicht verwendet, da ich in keiner weise mit dem Browser interagieren möchte. */

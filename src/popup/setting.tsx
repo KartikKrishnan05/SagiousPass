@@ -11,7 +11,6 @@ function getParameter () {
 var Username =  getParameter()
 
 const Setting = () => {
-    alert(Username)
     return <>
     <NavBar />
         <div className="w-full flex flex-col items-center justify-items-stretch rounded">
@@ -32,6 +31,8 @@ const Setting = () => {
                     <input type="password" id="newPassword" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="new password" required />
                     <button type="button" onClick={changePassword}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
                 </div>
+                <button type="button" onClick={logout}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> LogOut </button>
+                <button type="button" onClick={deleteuser}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Delete User </button>
             </form>
         </div>
     </>

@@ -54,7 +54,7 @@ const LoginTab = () => {
             Password: passwordLog,
         }).then((response) => {
             if (response.data.message) {
-                alert("This User was not found or Password and Username don't match")
+                alert(response.data.message)
             } else {
                 username = usernameLog;
                 (document.getElementById("usernameLog") as HTMLInputElement).value = '';
