@@ -26,15 +26,14 @@ app.post('/register', (req, res) => {
 
   const Username = req.body.Username
   const Password = Pepper + req.body.Password
+
   const FavWord = req.body.FavWord
   const FavSymbol = req.body.FavSymbol
 
   dbconnection.query("SELECT * FROM useraccount WHERE ? IN (Username);",
     Username,
     (err, response) => {
-      if(err){
-        res.send({err: err})
-      }
+      //console.log(response)
       if (response.length != 0) {
         res.send({ message: "Username already exists, choose a different one" })
       } else {
@@ -42,18 +41,17 @@ app.post('/register', (req, res) => {
           Username,
           (err, response) => {
             if (err) {
-              res.send({err: err})
+              console.log(err)
             } else {
               bcrypt.genSalt(saltRounds, (err, salt) => {
                 bcrypt.hash(Password, salt, (err, hash) => {
                   if (err) {
-                    res.send({err: err})
+                    console.log(err)
                   }
                   dbconnection.query("INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
                     [Username, hash, FavWord, FavSymbol],
                     (err, result) => {
-                      res.send({err: err})
-                      res.send({message: result})
+                      console.log(err);
                     })
                 })
               })
@@ -236,18 +234,6 @@ app.post('/deleteuser', (req, res) => {
   username,
   (err, response) => {
     res.send({message: "User: " + username + " was deleted succesfully"})
-    dbconnection.query("SELECT idUserAccount FROM useraccount WHERE ? IN (Username);",
-    username,
-    (err, response) => {
-      const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-      dbconnection.query("DELETE FROM savedpasswords WHERE ? IN (UserId)",
-      id,
-      (err, response) => {
-        if(err){
-          console.log(err)
-        }
-      })
-    })
   })
 
 })

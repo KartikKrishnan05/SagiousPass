@@ -9,6 +9,9 @@ const webpack = require('webpack')
 module.exports = {
     entry: {
         popup: path.resolve('src/popup/popup.tsx'),
+        options: path.resolve('src/options/options.tsx'),
+        background: path.resolve('src/background/background.ts'),
+        contentScript: path.resolve('src/contentScript/contentScript.ts'),
         setting: path.resolve('src/popup/setting.tsx'),
         home: path.resolve('src/popup/home.tsx'),
         options: path.resolve('src/options/options.tsx'),
@@ -88,7 +91,7 @@ module.exports = {
     optimization: {
         splitChunks: {
             chunks: 'all',
-        },
+        }
     }
 }
 
