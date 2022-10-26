@@ -151,7 +151,6 @@ app.post('/find', (req, res) => {
     Username,
     (err, response) => {
       const id = (Object.values(JSON.parse(JSON.stringify(response)))[0].idUserAccount)
-      console.log(id)
       dbconnection.query("SELECT * FROM savedpasswords WHERE ? IN (Url) AND ? IN (UserId) ;",
         [searchurl, id],
         (err, response) => {

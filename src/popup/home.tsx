@@ -132,10 +132,10 @@ const FindTab = () => {
 function find() {
 
     var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
-    var Username = Username
+    var NewUsername = Username
 
     Axios.post('http://localhost:3000/find', {
-        username: Username,
+        username: NewUsername,
         url: searchurl,
     }).then((response) => {
         if (response.data.message) {
