@@ -24,7 +24,5 @@
         }
     ],
     "host_permissions": ["http://localhost:3000/*"],
-    "permissions": [
-        "tabs"
-    ]
+    "permissions": []
 }

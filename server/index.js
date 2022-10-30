@@ -9,10 +9,10 @@ const saltRounds = 10
 const Pepper = "Yoru"
 
 const dbconnection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Kkottobrunn2013.',
-  database: 'sagiouspass'
+  host: 'sql7.freesqldatabase.com',
+  user: 'sql7530554',
+  password: 'YrwCy47Vfi',
+  database: 'sql7530554'
 })
 
 app.use(express.json());
