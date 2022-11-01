@@ -18,6 +18,10 @@ const dbconnection = mysql.createConnection({
 app.use(express.json());
 app.use(cors());
 
+app.listen(3000, () => {
+  console.log("running server");
+})
+
 app.get('/', (req, res) => {
   res.send("In Server")
 })
@@ -232,9 +236,7 @@ app.post('/deleteuser', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-  console.log("running server");
-})
+
 
 
 /* 
