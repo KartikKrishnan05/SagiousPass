@@ -31,13 +31,12 @@ app.post("/register", (req, res) => {
   const FavWord = req.body.FavWord;
   const FavSymbol = req.body.FavSymbol;
 
-        dbconnection.query("SELECT * FROM useraccount WHERE Username = ?;",
-          Username,
-          (err, result) => {
-            if (err) {
-              res.send({ err: err });
-            }
-            if (result.length > 0) {
+  dbconnection.query("SELECT * FROM useraccount WHERE Username = ?;",
+    Username,
+    (err, response) => {
+      if (response != 0) {
+        res.send({ message: "Username already exists, choose a different one" })
+      } else {
               bcrypt.hash(Password, saltRounds, (err, hash) => {
                 if (err) {
                   console.log(err)
@@ -51,7 +50,9 @@ app.post("/register", (req, res) => {
             }
           })
         res.send(response)
-})
+      }
+  )
+
 
 
 app.post("/login", (req, res) => {
