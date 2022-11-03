@@ -36,21 +36,11 @@ app.post("/register", (req, res) => {
     Username,
     (err, response) => {
       console.log(response)
-      if(err){
-        console.log(err)
-      }
-      if (Object.keys(response.data[0].Username).length != 0) {
+      if (response.length != 0) {
         res.send({
           message: "Username already exists, choose a different one",
-        });
+      });
       } else {
-        dbconnection.query(
-          "SELECT * FROM useraccount WHERE Username = ?;",
-          Username,
-          (err, response) => {
-            if (err) {
-              console.log(err);
-            } else {
               bcrypt.hash(Password, saltRounds, (err, hash) => {
                 if (err) {
                   console.log(err);
@@ -68,9 +58,8 @@ app.post("/register", (req, res) => {
         );
         res.send(response);
       }
-    }
   );
-});
+
 
 app.post("/login", (req, res) => {
   const Username = req.body.Username;
