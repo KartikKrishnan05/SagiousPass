@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("In Server");
+  res.send("In Test Server");
 });
 
 app.post("/register", (req, res) => {
