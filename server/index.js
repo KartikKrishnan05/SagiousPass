@@ -282,9 +282,7 @@ app.post("/deleteuser", (req, res) => {
   );
 });
 
-app.listen(3000, () => {
-  console.log("running server");
-});
+const PORT = process.env.PORT ?? 3e3;
 
 app.listen(PORT, () => {
   console.log("running server on port", PORT);
