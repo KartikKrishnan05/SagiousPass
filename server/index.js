@@ -36,6 +36,9 @@ app.post("/register", (req, res) => {
     Username,
     (err, response) => {
       console.log(response)
+      if(err){
+        console.log(err)
+      }
       if (response.length != 0) {
         res.send({
           message: "Username already exists, choose a different one",
