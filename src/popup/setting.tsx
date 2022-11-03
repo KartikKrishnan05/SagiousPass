@@ -74,6 +74,14 @@ function changeFavWord() {
         return;
     }
 
+    let capital = /[A-Z]/;
+
+    if(capital.test(newFavWord)){
+        (document.getElementById("newFavWord") as HTMLInputElement).value = '';
+        alert("Please use small letters only")
+        return;
+    }
+
     if (newFavWord.length < 6) {
         (document.getElementById("newFavWord") as HTMLInputElement).value = '';
         alert("Please choose a longer word")

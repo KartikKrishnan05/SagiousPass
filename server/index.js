@@ -11,10 +11,10 @@ const saltRounds = 10;
 const Pepper = process.env.PEPPER;
 
 const dbconnection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: "sql7.freesqldatabase.com",
+  user: "sql7530554",
+  password: "YrwCy47Vfi",
+  database: "sql7530554",
 });
 
 app.use(express.json());
@@ -282,7 +282,9 @@ app.post("/deleteuser", (req, res) => {
   );
 });
 
-const PORT = process.env.PORT ?? 3e3;
+app.listen(3000, () => {
+  console.log("running server");
+});
 
 app.listen(PORT, () => {
   console.log("running server on port", PORT);

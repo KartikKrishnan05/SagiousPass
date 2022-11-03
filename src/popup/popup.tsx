@@ -128,6 +128,15 @@ function register(){
         return;
     }
 
+
+    let capital = /[A-Z]/;
+
+    if(capital.test(favWordReg)){
+        (document.getElementById("favWordReg") as HTMLInputElement).value = '';
+        alert("Please use small letters only")
+        return;
+    }
+
     if (usernameReg == '' || passwordReg == '' || favWordReg == '' || favSymbolReg == '' || confirmPw == '') {
         alert("please input all parameters")
         return;
