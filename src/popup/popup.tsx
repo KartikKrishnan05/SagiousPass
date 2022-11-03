@@ -5,6 +5,8 @@ import Axios from 'axios'
 
 var username;
 
+Axios.defaults.baseURL = "http://188.34.158.212:24356/";
+
 const App = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const tabs = [
@@ -59,7 +61,7 @@ function login(){
     const usernameLog = (document.getElementById("usernameLog") as HTMLInputElement).value
     const passwordLog = (document.getElementById("passwordLog") as HTMLInputElement).value
 
-    Axios.post('http://localhost:3000/login', {
+    Axios.post('/login', {
         Username: usernameLog,
         Password: passwordLog,
     }).then((response) => {
@@ -167,7 +169,7 @@ function register(){
         alert("Confirm Password doesn't match with initial Password");
         (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
     } else {
-        Axios.post('http://localhost:3000/register', {
+        Axios.post('register', {
             Username: usernameReg,
             Password: passwordReg,
             FavWord: favWordReg,

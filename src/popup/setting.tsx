@@ -3,6 +3,8 @@ import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
 
+Axios.defaults.baseURL = "http://188.34.158.212:24356/";
+
 function getParameter () {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
@@ -42,7 +44,7 @@ function logout(){
 }
 
 function deleteuser(){
-    Axios.post('http://localhost:3000/deleteuser', {
+    Axios.post('/deleteuser', {
         Username: Username
     }).then((response) => {
         if(response.data.message){
@@ -93,7 +95,7 @@ function changeFavWord() {
         return;
     }
 
-    Axios.post('http://localhost:3000/changefavword', {
+    Axios.post('/changefavword', {
         FavWord: newFavWord,
         Username: Username
     }).then((response) => {
@@ -131,7 +133,7 @@ function changeFavSymbol() {
         return;
     }
 
-    Axios.post('http://localhost:3000/changefavsymbol', {
+    Axios.post('/changefavsymbol', {
         FavSymbol: newFavSymbol,
         Username: Username
     }).then((response) => {
@@ -149,7 +151,7 @@ function changePassword() {
         return;
     }
 
-    Axios.post('http://localhost:3000/changepassword', {
+    Axios.post('/changepassword', {
         NewPassword: newPassword,
         Username: Username
     }).then((response) => {

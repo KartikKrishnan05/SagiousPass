@@ -3,6 +3,8 @@ import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
 
+Axios.defaults.baseURL = "http://188.34.158.212:24356/";
+
 function getParameter () {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
@@ -133,7 +135,7 @@ function find() {
     var searchurl = (document.getElementById("searchurl") as HTMLInputElement).value
     var NewUsername = Username
 
-    Axios.post('http://localhost:3000/find', {
+    Axios.post('/find', {
         username: NewUsername,
         url: searchurl,
     }).then((response) => {
@@ -171,7 +173,7 @@ function save() {
 
     var PasswordSaveEnc = encrypt(PasswordSave).toString()
 
-    Axios.post('http://localhost:3000/save', {
+    Axios.post('/save', {
         Username: Username,
         urlSave: UrlSave,
         passwordSave: PasswordSaveEnc,
@@ -203,7 +205,7 @@ function update() {
 
     var PasswordSaveEnc = encrypt(PasswordSave).toString()
 
-    Axios.post('http://localhost:3000/update', {
+    Axios.post('/update', {
         Username: Username,
         urlSave: UrlSave,
         passwordSave: PasswordSaveEnc,
@@ -226,7 +228,7 @@ const CreateTab = () => {
 
 function erstellen() {
 
-    Axios.post('http://localhost:3000/getFavWord&Symbol', {
+    Axios.post('/getFavWord&Symbol', {
         Username: Username
     }).then((result) => {
         console.log(result)
