@@ -169,7 +169,7 @@ function register(){
         alert("Confirm Password doesn't match with initial Password");
         (document.getElementById("confirmpwReg") as HTMLInputElement).value = '';
     } else {
-        Axios.post('register', {
+        Axios.post('/register', {
             Username: usernameReg,
             Password: passwordReg,
             FavWord: favWordReg,
