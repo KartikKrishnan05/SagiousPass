@@ -282,4 +282,3 @@ dbconnection.connect((error) => {
   console.log("Connection established sucessfully");
 });
 
-dbconnection.end((error) => {});
