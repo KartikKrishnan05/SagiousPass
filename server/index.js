@@ -31,34 +31,36 @@ app.post("/register", (req, res) => {
   const FavWord = req.body.FavWord;
   const FavSymbol = req.body.FavSymbol;
 
-  dbconnection.query(
-    "SELECT * FROM useraccount WHERE ? IN (Username);",
+  dbconnection.query("SELECT * FROM useraccount WHERE ? IN (Username);",
     Username,
     (err, response) => {
-      console.log(response)
+      //console.log(response)
       if (response.length != 0) {
-        res.send({
-          message: "Username already exists, choose a different one",
-      });
+        res.send({ message: "Username already exists, choose a different one" })
       } else {
+        dbconnection.query("SELECT * FROM useraccount WHERE Username = ?;",
+          Username,
+          (err, response) => {
+            if (err) {
+              console.log(err)
+            } else {
               bcrypt.hash(Password, saltRounds, (err, hash) => {
                 if (err) {
-                  console.log(err);
+                  console.log(err)
                 }
-                dbconnection.query(
-                  "INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
+                dbconnection.query("INSERT INTO useraccount (Username, Password, FavWord, FavSymbol) VALUES (?,?,?,?)",
                   [Username, hash, FavWord, FavSymbol],
                   (err, result) => {
                     console.log(err);
-                  }
-                );
-              });
+                  })
+              })
             }
-          }
-        );
-        res.send(response);
+          })
+        res.send(response)
       }
-  );
+    }
+  )
+})
 
 
 app.post("/login", (req, res) => {
