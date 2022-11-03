@@ -31,11 +31,11 @@ app.post("/register", (req, res) => {
   const FavWord = req.body.FavWord;
   const FavSymbol = req.body.FavSymbol;
 
-  dbconnection.query("SELECT * FROM useraccount WHERE ? IN (Username);",
+  dbconnection.query("SELECT * FROM useraccount WHERE Username = ?;",
     Username,
     (err, response) => {
-      console.log(response)
-      if (response.length != 0) {
+      console.log(response.data[0].Username)
+      if (response.data[0].Username.length != 0) {
         res.send({ message: "Username already exists, choose a different one" })
       } else {
         dbconnection.query("SELECT * FROM useraccount WHERE Username = ?;",
