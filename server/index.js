@@ -39,7 +39,7 @@ app.post("/register", (req, res) => {
       if(err){
         console.log(err)
       }
-      if (response.length != 0) {
+      if (Object.keys(response.data[0].Username).length != 0) {
         res.send({
           message: "Username already exists, choose a different one",
         });
