@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -8,7 +6,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const { response } = require("express");
 const saltRounds = 10;
-const Pepper = process.env.PEPPER;
+const Pepper = "Yoru";
 
 const dbconnection = mysql.createConnection({
   host: "sql7.freesqldatabase.com",
@@ -23,6 +21,10 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("In Test Server");
 });
+
+app.get('/test', (req, res) => {
+  res.send("in test");
+})
 
 app.post("/register", (req, res) => {
   const Username = req.body.Username;
@@ -268,10 +270,10 @@ app.post("/deleteuser", (req, res) => {
   );
 });
 
-const PORT = Number(process.env.PORT ?? 3e3);
 
-app.listen(PORT, () => {
-  console.log("running server on port", PORT);
+
+app.listen(8080, () => {
+  console.log("running server on port");
 });
 
 dbconnection.connect((error) => {

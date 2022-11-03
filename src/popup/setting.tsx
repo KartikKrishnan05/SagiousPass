@@ -3,7 +3,7 @@ import '../assets/tailwind.css'
 import { createRoot } from 'react-dom/client'
 import Axios from 'axios'
 
-Axios.defaults.baseURL = "http://188.34.158.212:24356/";
+Axios.defaults.baseURL = "http://167.172.111.232/";
 
 function getParameter () {
     let parameter = new URLSearchParams(window.location.search);

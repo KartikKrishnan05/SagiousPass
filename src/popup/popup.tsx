@@ -5,7 +5,7 @@ import Axios from 'axios'
 
 var username;
 
-Axios.defaults.baseURL = "http://188.34.158.212:24356/";
+Axios.defaults.baseURL = "http://167.172.111.232/";
 
 const App = () => {
     const [selectedTab, setSelectedTab] = useState(0);
