@@ -34,7 +34,7 @@ app.post("/register", (req, res) => {
   dbconnection.query("SELECT * FROM useraccount WHERE ? IN (Username);",
     Username,
     (err, response) => {
-      //console.log(response)
+      console.log(response)
       if (response.length != 0) {
         res.send({ message: "Username already exists, choose a different one" })
       } else {
