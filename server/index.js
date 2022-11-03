@@ -282,21 +282,18 @@ app.post("/deleteuser", (req, res) => {
   );
 });
 
-const PORT = process.env.PORT ?? 3e3;
+const PORT = Number(process.env.PORT ?? 3e3);
 
 app.listen(PORT, () => {
   console.log("running server on port", PORT);
 });
 
-/* 
 dbconnection.connect((error) => {
-    if(error){
-      console.log('Error connecting to the MySQL Database');
-      return;
-    }
-    console.log('Connection established sucessfully');
-  });
+  if (error) {
+    console.log("Error connecting to the MySQL Database");
+    return;
+  }
+  console.log("Connection established sucessfully");
+});
 
-  dbconnection.end((error) => {
-  });
-  */
+dbconnection.end((error) => {});
