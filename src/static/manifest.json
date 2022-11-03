@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "SagiousPass",
     "description": "Helps you change and find password easier, which you can remember later on. And even if you forget it just find it here :)",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "action" : {
         "default_popup": "popup.html",
         "default_title": "Password Manager",
