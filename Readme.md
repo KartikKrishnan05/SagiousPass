@@ -17,4 +17,8 @@ Passwort: fUßbaLl!26
 
 --> Dadurch ist jedes Passwort für jede Website unterschiedlich und für jedes Passwort muss man sich nur das Lieblingswort, das Zeichen und die beiden Zahlen hinten merken. 
 
-Server: MySQL  
+Datenbank: freesqldatabase
+Server: digitalocean
+
+
+dient nur zum Bildungszweck 

@@ -5,15 +5,15 @@ import Axios from 'axios'
 
 Axios.defaults.baseURL = "http://167.172.111.232/";
 
-function getParameter () {
+function getParameter() {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
 }
-var Username =  getParameter()
+var Username = getParameter()
 
 const Setting = () => {
     return <>
-    <NavBar />
+        <NavBar />
         <div className="w-full flex flex-col items-center justify-items-stretch rounded">
             <form>
                 <div className="mb-3 mt-[10px] flex flex-col items-center">
@@ -30,40 +30,40 @@ const Setting = () => {
                 <div className="mb-3 flex flex-col items-center">
                     <label className="text-center block mb-1 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
                     <input type="password" id="newPassword" className=" outline-0 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" placeholder="new password" required />
-                    <button type="button" onClick={changePassword}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
+                    <button type="button" onClick={changePassword} className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Change Pw </button>
                 </div>
-                <button type="button" onClick={logout}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> LogOut </button>
-                <button type="button" onClick={deleteuser}  className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Delete User </button>
+                <button type="button" onClick={logout} className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> LogOut </button>
+                <button type="button" onClick={deleteuser} className=" w-full mb-[10px] text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center"> Delete User </button>
             </form>
         </div>
     </>
 }
 
-function logout(){
+function logout() {
     window.location.href = "popup.html"
 }
 
-function deleteuser(){
+function deleteuser() {
     Axios.post('/deleteuser', {
         Username: Username
     }).then((response) => {
-        if(response.data.message){
-        alert(response.data.message);
-        window.location.href = "popup.html"
-    }
+        if (response.data.message) {
+            alert(response.data.message);
+            window.location.href = "popup.html"
+        }
     })
 }
 
 const NavBar = () => {
     return <div>
-          <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-orange-600 mb-3">
-                <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
-                  SagiousPass
-                </a>
-                <a href={"home.html?username=" + Username} className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
-                    Home
-                </a>
-          </nav>
+        <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-orange-600 mb-3">
+            <a className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
+                SagiousPass
+            </a>
+            <a href={"home.html?username=" + Username} className="ml-6 text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white" >
+                Home
+            </a>
+        </nav>
     </div>
 }
 
@@ -78,7 +78,7 @@ function changeFavWord() {
 
     let capital = /[A-Z]/;
 
-    if(capital.test(newFavWord)){
+    if (capital.test(newFavWord)) {
         (document.getElementById("newFavWord") as HTMLInputElement).value = '';
         alert("Please use small letters only")
         return;
