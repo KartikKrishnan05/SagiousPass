@@ -4,7 +4,7 @@
   "version": "3.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
+  "scripts": { 
     "watch": "webpack --watch --progress --config webpack.dev.js ",
     "build": "webpack --progress --config webpack.prod.js"
   },

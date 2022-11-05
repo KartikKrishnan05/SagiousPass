@@ -6,7 +6,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const { response } = require("express");
 const saltRounds = 10;
-const Pepper = "Yoru";
+const Pepper = "Yoru"; 
 
 const dbconnection = mysql.createConnection({
   host: "sql7.freesqldatabase.com",

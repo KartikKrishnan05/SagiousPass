@@ -8,7 +8,7 @@ Axios.defaults.baseURL = "http://167.172.111.232/";
 function getParameter () {
     let parameter = new URLSearchParams(window.location.search);
     return parameter.get("username")
-}
+} 
 var Username =  getParameter()
 
 var CryptoJS = require("crypto-js/core");

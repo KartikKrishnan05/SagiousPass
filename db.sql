@@ -11,7 +11,7 @@ CREATE TABLE `useraccount` (
   UNIQUE KEY `Username_UNIQUE` (`Username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
-
+ 
 
 CREATE TABLE `savedpasswords` (
   `idsavedpasswords` int(11) NOT NULL AUTO_INCREMENT,

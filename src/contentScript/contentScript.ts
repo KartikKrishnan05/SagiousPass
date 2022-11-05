@@ -1,1 +1,1 @@
-/* Content Script wird in diesem Projekt nicht verwendet, da ich in keiner weise mit dem Browser interagieren möchte. */
+/* Content Script wird in diesem Projekt nicht verwendet, da ich in keiner weise mit dem Browser interagieren möchte. */ 

@@ -9,7 +9,7 @@ services:
     networks:
       - app-network
 
-  proxy:
+  proxy: 
     image: nginx:alpine
     container_name: web-proxy
     restart: unless-stopped

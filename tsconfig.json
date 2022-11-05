@@ -9,4 +9,4 @@
      },
      "include": ["src/**/*.ts", "src/**/*.tsx", "src/popup/popup.tsx"],
      "exclude": ["node_modules"],
- }
+ } 

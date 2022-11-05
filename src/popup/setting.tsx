@@ -149,7 +149,7 @@ function changePassword() {
     if (newPassword == '') {
         alert("please input Symbol parameter")
         return;
-    }
+    } 
 
     Axios.post('/changepassword', {
         NewPassword: newPassword,

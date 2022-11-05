@@ -5,7 +5,7 @@
     "version": "3.0.0",
     "action" : {
         "default_popup": "popup.html",
-        "default_title": "Password Manager",
+        "default_title": "Password Manager", 
         "default_icon" : "images/icon_48.png"
     },
     "icons": {

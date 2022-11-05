@@ -4,8 +4,10 @@ SagiousPass - Password Manager
 Dieses Programm dient vorallem dazu deine Passwörter sicher zu speichern. 
 zusätzliche Funktionen sind: bestehende Passwörter überprüfen & leichtmerkbare Passwörter erstellen
 
-Das Programm erstellt Passwörter nach dieser Regel: 
+Diese Programm ist auch auf dem Chrome Web Store zu finden:
+https://chrome.google.com/webstore/detail/sagiouspass/dealjajgbhaacaajicfckfgjlgpmlohp
 
+Das Programm erstellt Passwörter nach dieser Regel: 
 1. Das Passwort nimmt dein lieblings Wort (Angabe bei Registrierung)
 2. Fügt dein Lieblingzeichen hinzu 
 3. Nimmt zufällig zwei Buchstaben deines Wortes und ändert sie in einen Großbuchstaben

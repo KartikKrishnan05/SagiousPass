@@ -8,6 +8,6 @@ module.exports = {
       'serif': ['ui-serif', 'Georgia'],
       'mono': ['ui-monospace', 'SFMono-Regular'],
     }
-  },
+  }, 
   plugins: [],
 }
