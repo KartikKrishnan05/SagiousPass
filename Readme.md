@@ -1,4 +1,5 @@
-Willkommen zu SagiousPass
+SagiousPass - Password Manager
+// nur zu Bildungszwecken //
 
 Dieses Programm dient vorallem dazu deine Passwörter sicher zu speichern. 
 zusätzliche Funktionen sind: bestehende Passwörter überprüfen & leichtmerkbare Passwörter erstellen
@@ -17,8 +18,31 @@ Passwort: fUßbaLl!26
 
 --> Dadurch ist jedes Passwort für jede Website unterschiedlich und für jedes Passwort muss man sich nur das Lieblingswort, das Zeichen und die beiden Zahlen hinten merken. 
 
-Datenbank: freesqldatabase
-Server: digitalocean
+How to Install and Run the Project:
+1. Clone Github code to local pc 
+2. Run npm in main directory & and in server folder
+3. In terminal (main directory) run: npm run build || npm run watch
+4. In terminal (server) run: npm run start || npm run watch
+5. Then head into chrome and add your chrome directory in this url: chrome://extensions/ 
+    be sure to activate developermode (Entwicklermodus) in the top right
+6. Use this Chrome Extension :)
+
+Credits: 
+manshu (React & Tailwind Template): https://github.com/manshu/reactjs-chrome-extension
+PedroTech (Connection with Database): https://www.youtube.com/c/PedroTechnologies
+Of course StackOverflow, GeeksforGeeks, etc. 
+
+Database: 
+Database was hosted on https://www.freesqldatabase.com/
+cost: free
+Database location: Europe (Mainland)
+0.06MB Space 
 
 
-dient nur zum Bildungszweck 
+Server: 
+The serverfiles where uploded to https://www.digitalocean.com/ 
+cost: 6€/Month 
+Server location: Frankfurt 
+1 GB Memory
+25 GB Diskspace 
+
