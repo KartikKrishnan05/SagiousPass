@@ -38,7 +38,7 @@ Database:
 Database was hosted on https://www.freesqldatabase.com/
 cost: free
 Database location: Europe (Mainland)
-0.06MB Space 
+5.00MB Space 
 
 
 Server: 
