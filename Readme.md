@@ -21,13 +21,15 @@ Passwort: fUßbaLl!26
 --> Dadurch ist jedes Passwort für jede Website unterschiedlich und für jedes Passwort muss man sich nur das Lieblingswort, das Zeichen und die beiden Zahlen hinten merken. 
 
 How to Install and Run the Project:
-1. Clone Github code to local pc 
-2. Run npm in main directory & and in server folder
-3. In terminal (main directory) run: npm run build || npm run watch
-4. In terminal (server) run: npm run start || npm run watch
+0. Install nodejs 
+1. Clone git repository 
+2. Run `npm install` in root `./` directory and `./server/`
+3. In root run: `npm run build` or `npm run watch`
+4. In `./server/` run: `npm run start` or `npm run watch`
 5. Then head into chrome and add your chrome directory in this url: chrome://extensions/ 
     be sure to activate developermode (Entwicklermodus) in the top right
-6. Use this Chrome Extension :)
+6. Then click 'load unpacked extension' button and then locate dist folder in cloned repository 
+7. Use this Chrome Extension :)
 
 Credits: 
 manshu (React & Tailwind Template): https://github.com/manshu/reactjs-chrome-extension
